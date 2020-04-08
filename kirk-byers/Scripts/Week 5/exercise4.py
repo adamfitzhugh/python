@@ -1,0 +1,53 @@
+"""
+Copy your solution from exercise3 to exercise4. Add an 'import pdb' and pdb.set_trace() statement
+outside of your function (i.e. where you have your function calls).
+Inside of pdb, experiment with:
+1. Listing your code.
+2. Using 'next' and 'step' to walk through your code. Make sure you understand the difference
+   between the two.
+3. Experiment with 'up' and 'down' to move up and down the code stack.
+4. Use p <variable> to look at a variable.
+5. Set a breakpoint and run your code to the breakpoint.
+6. Use '!command' to change a variable (for example !new_mac = [])
+"""
+
+from __future__ import print_function, unicode_literals
+import re
+import pdb
+
+def normal_mac_addr(mac_address):
+
+    mac_address = mac_address.upper
+
+    if ':' in mac_address or '-' in mac_address:
+        new = []
+        octets = re.split(r"[-:]", mac_address)
+
+        for octet in octects:
+            if len(octet) < 2:
+                octet = octet.zfill(2)
+            new.append(octet)
+
+    elif '.' in mac_address:
+        mac = []
+        sec = mac_address.split('.')
+        if len(sec) != 3:
+            raise ValueError("This went wrong")
+
+        for word in sec:
+            if len(word) < 4:
+                word = word.zfill(4)
+            new.append(word[:2])
+            mac.append(word[:2])
+
+    return ":".join(mac)
+
+# Some tests
+pdb.set_trace()
+assert "01:23:02:34:04:56" == normal_mac_addr('123.234.456')
+assert "AA:BB:CC:DD:EE:FF" == normal_mac_addr('aabb.ccdd.eeff')
+assert "0A:0B:0C:0D:0E:0F" == normal_mac_addr('a:b:c:d:e:f')
+assert "01:02:0A:0B:03:44" == normal_mac_addr('1:2:a:b:3:44')
+assert "0A:0B:0C:0D:0E:0F" == normal_mac_addr('a-b-c-d-e-f')
+assert "01:02:0A:0B:03:44" == normal_mac_addr('1-2-a-b-3-44')
+print("Tests passed")
